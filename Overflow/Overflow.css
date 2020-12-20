@@ -1,0 +1,27 @@
+.wrap{
+    display: flex;
+    flex-wrap: wrap;
+    margin: auto;
+    width: 900px;
+}
+.wrap .item{
+    margin: 10px 10px;
+    width: 280px;
+    box-sizing: border-box;
+    position: relative;
+    overflow: hidden;
+}
+.wrap .item:hover>div.text{
+    bottom: 0;
+}
+.wrap .item .pic img{
+    width: 100%;
+}
+.wrap .item .text{
+    background-color: gray;
+    opacity: .8;
+    text-align: center;
+    position: absolute;
+    bottom: -60px;
+    transition: 1s;
+}
