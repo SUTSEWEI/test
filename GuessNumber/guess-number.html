@@ -205,19 +205,24 @@
     function rule() {
       A = 0;
       B = 0;
-      for(let i = 0; i < 4; i++){
-        if(ans[i] == Input[i])
+
+      ans.forEach(function(item,index,ans){
+        if(item == Input[index])
         {
           A++;
         }
-        else if(ans.includes(Number(Input[i])))
+        else if(ans.includes(Number(Input[index])))
         {
           B++;
         }
       }
+      )
+
       _li();
+      
       if(A == 4)
       {
+        alert("恭喜過關")
         setTimeout(function () {
           alert("恭喜過關")
         }, 100);
