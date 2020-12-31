@@ -157,16 +157,17 @@
 
 
     let ans = [];
-    let Input; 
+    let Input;
     let A = 0;
     let B = 0;
+
     function getRandom() {
       return Math.floor(Math.random() * 10)
     }
 
 
     function getAns() {
-      ans=[]
+      ans = []
       while (ans.length < 4) {
         let num = getRandom();
         if (!ans.includes(num)) {
@@ -179,12 +180,10 @@
       Input = document.querySelector('#userGuess').value;
       if (ans.length == 0) {
         alert("請按開始")
-      } 
-      else {
+      } else {
         if (Input.length != 4 || isNumber() == false) {
           alert("請輸入四個不重複的整數")
-        } 
-        else {
+        } else {
           rule()
         }
       }
@@ -194,7 +193,7 @@
     function isNumber() {
       let bln = true;
       for (let i = 0; i < 4; i++) {
-        
+
         if (!Number.isInteger(Number(Input[i]))) {
           bln = false;
         }
@@ -206,35 +205,35 @@
       A = 0;
       B = 0;
 
-      ans.forEach(function(item,index,ans){
-        if(item == Input[index])
-        {
-          A++;
+
+      ans.forEach(function (item, index) {
+        if (ans.includes(Number(Input[index]))) {
+          if (item == Input[index]) 
+          {
+            A++;
+          } 
+          else 
+          {
+            B++;
+          }
         }
-        else if(ans.includes(Number(Input[index])))
-        {
-          B++;
-        }
-      }
-      )
+      })
 
       _li();
-      
-      if(A == 4)
-      {
-        alert("恭喜過關")
+
+      if (A == 4) {
         setTimeout(function () {
           alert("恭喜過關")
         }, 100);
-        
+
       }
     }
 
     function _li() {
       let ul = document.querySelector('#guessResults');
       let li = document.createElement('li');
-      li.className ="list-group-item"
-      let span =`<span class="label label-danger">${A}A${B}B</span>`
+      li.className = "list-group-item"
+      let span = `<span class="label label-danger">${A}A${B}B</span>`
       li.innerHTML = span;
       li.append(Input);
       ul.append(li);
