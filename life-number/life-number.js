@@ -47,8 +47,6 @@ document.querySelector("#submit").addEventListener('click', function () {
 
     if(checkRecord(birthdayArray))
     {
-        // console.log(birthdayArray)
-        // console.log(record)
         record = birthdayArray;
         check_Constellation(birthdayArray);
         cal_number(birthday);
@@ -99,13 +97,8 @@ function getInfo() {
         type: "Get",
         url: `http://buildschoolapi.azurewebsites.net/api/number/GetNumerology?constellation=${constellation}&number=${Spirit_number}`,
         success: function (response) {
-            showInfo(response)
-        }
-    });
-}
-
-function showInfo(data) {
-    let ul = document.querySelector('#info')
+            // showInfo(response)
+            let ul = document.querySelector('#info')
     if(ul.innerHTML != "")
     {
         ul.innerHTML = ""
@@ -119,7 +112,26 @@ function showInfo(data) {
     ul.append(p1)
     ul.append(p2)
     ul.append(p3)
+        }
+    });
 }
+
+// function showInfo(data) {
+//     let ul = document.querySelector('#info')
+//     if(ul.innerHTML != "")
+//     {
+//         ul.innerHTML = ""
+//     }
+//     let p1 = document.createElement('p')
+//     let p2 = document.createElement('p')
+//     let p3 = document.createElement('p')
+//     p1.innerHTML = `星座 : ${constellation_Object[`${constellation}`]}`
+//     p2.innerHTML = `生命靈數 : ${Spirit_number}`
+//     p3.innerHTML = `${data}`
+//     ul.append(p1)
+//     ul.append(p2)
+//     ul.append(p3)
+// }
 
 function checkRecord(data){
     let bln = true;
