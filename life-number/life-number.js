@@ -47,8 +47,6 @@ document.querySelector("#submit").addEventListener('click', function () {
 
     if(checkRecord(birthdayArray))
     {
-        // console.log(birthdayArray)
-        // console.log(record)
         record = birthdayArray;
         check_Constellation(birthdayArray);
         cal_number(birthday);
@@ -95,9 +93,10 @@ function cal_number(birthday) {
 
 
 function getInfo() {
+    let url = `http://buildschoolapi.azurewebsites.net/api/number/GetNumerology?constellation=${constellation}&number=${Spirit_number}`
     $.ajax({
         type: "Get",
-        url: `http://buildschoolapi.azurewebsites.net/api/number/GetNumerology?constellation=${constellation}&number=${Spirit_number}`,
+        url: url,
         success: function (response) {
             showInfo(response)
         }
