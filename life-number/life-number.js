@@ -40,7 +40,9 @@ document.querySelector("#submit").addEventListener('click', function () {
     let birthdayArray = [];
 
     birthday = document.querySelector("#birthday").value;
-    birthdayArray = birthday.split("-");
+    if(birthday !="")
+    {
+        birthdayArray = birthday.split("-");
 
     if(checkRecord(birthdayArray))
     {
@@ -49,8 +51,7 @@ document.querySelector("#submit").addEventListener('click', function () {
         cal_number(birthday);
         getInfo();
     }
-    
-
+    }
 })
 
 function check_Constellation(birthdayArray) {
@@ -126,10 +127,9 @@ function checkRecord(data){
     if(record.length == 3)
     {
         if(record[0] == data[0] && record[1] == data[1] && record[2] == data[2])
-    {
-        bln = false;
-    }
-
+        {
+            bln = false;
+        }
     }
     return bln;
 }
