@@ -58,6 +58,9 @@
             input.value=""
             document.querySelector('.piece_board').innerHTML=""
             piece_control = true;
+            let rand_pic = getRandomIntInclusive(1,500)
+            url = `https://picsum.photos/600/600/?random=${rand_pic}`
+
         })
 
         start.addEventListener('click', function () {
