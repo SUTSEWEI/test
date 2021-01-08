@@ -1,0 +1,63 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.container .control {
+  margin: 50px;
+}
+
+.container .control input {
+  width: 200px;
+  height: 30px;
+}
+
+.container .control #btn_start {
+  width: 100px;
+  height: 30px;
+}
+
+.container .piece_board {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  width: 600px;
+  height: 600px;
+  margin: auto;
+  outline: 3px solid red;
+}
+
+.container .piece_board .col {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  border: 1px solid #fff;
+  position: relative;
+}
+
+.container .piece_board .col .piece {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.container .piece_board .col .piece img {
+  position: relative;
+  width: 600px;
+  height: 600px;
+}
+/*# sourceMappingURL=Puzzle.css.map */

@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="percent.css">
+    <link rel="stylesheet" href="Puzzle.css">
+    <title>Puzzle_Demo</title>
+</head>
+
+<body>
+    
+    <div class="container">
+        <div class="control">
+            <label for="">請輸入難度</label>
+            <input type="text" id="level" name="level">
+            <input type="button" id="btn_start" value="開始">
+            <input type="button" id="btn_reset" value="重置">
+        </div>
+
+        <div class="piece_board"></div>
+
+        
+    </div>
+
+    <script>
+        let ans_Array = []
+        let img_Array = []
+        
+
+        let url = "https://picsum.photos/600/600/?random=1"
+        // let url = "/images/images.jpg"
+        const piece_board = document.querySelector('.piece_board')
+        const Size = 600;
+        let input = document.querySelector('#level')
+        let n;
+        let pic_Size;
+        let space;
+        let space_obj = [];
+        let piece_control = true;
+        let transition_time = "0.3s"
+        let delay_time = 500
+        let start = document.querySelector('#btn_start')
+        let reset = document.querySelector('#btn_reset')
+        start.disabled = "true"
+        reset.disabled = "true"
+        let text; 
+        
+        
+        input.addEventListener('input',function(){
+            start.disabled = ""
+            text = document.getElementById('level').value
+        })
+        reset.addEventListener('click', function(){
+            input.disabled = ""
+            reset.disabled = "true"
+            input.value=""
+            document.querySelector('.piece_board').innerHTML=""
+            piece_control = true;
+        })
+
+        start.addEventListener('click', function () {
+            set_Digital()
+            input.disabled = "true"
+            start.disabled = "true"
+            reset.disabled = ""
+            // document.querySelector('.piece_board').before
+            set_Piece()
+
+            img_Array = ans_Array.slice()
+            while(check_Rule())
+            {
+                for(let i = 0; i < Math.pow(n,n); i++)
+                {
+                    random_Piece()
+                }
+            }
+            set_col()
+        })
+
+        function set_Digital(){
+            n = Number(text);
+            pic_Size = Size / n;
+            space = n*n-1
+            ans_Array = []
+            img_Array = []
+            space_obj=[]
+        }
+
+        function set_Piece() {
+            let num=0
+            for (let i = 0; i < n; i++) {
+                for (let j = 0; j < n; j++) {
+                    let piece = document.createElement('div')
+                    piece.className = `piece piece${num}`
+                    let img = document.createElement('img')
+                    let top = -pic_Size * i
+                    let left = -pic_Size * j
+                    img.src = url
+                    img.style.marginTop = `${top}px`
+                    img.style.marginLeft = `${left}px`
+                    img.style.zIndex = -2
+                    piece.style.zIndex = -1
+                    if(ans_Array.length == n*n-1 )
+                    {
+                        img.style.display = "none"
+                    }
+                    piece.appendChild(img)
+                    ans_Array.push(piece)
+                    if(num == space)
+                    {
+                        space_obj.push(piece)
+                    }
+                    num++
+                }
+            }      
+        }
+
+        function set_col(){
+            for(let i = 0; i < Math.pow(n,2); i++)
+            {
+                let col = document.createElement('div')
+                col.className = `col col${i}`
+                col.style.width = `${pic_Size}px`
+                col.style.height = `${pic_Size}px`
+                col.value = i
+                col.appendChild(img_Array[i])
+                col.addEventListener('click', function(){
+                    if(piece_control)
+                    {
+                        check_move(this)
+                    }
+                })
+                piece_board.appendChild(col)
+                
+            }
+        }
+
+        function getRandomIntInclusive(min,max) {
+            min = Math.ceil(min);
+            max = Math.floor(max);
+            return Math.floor(Math.random() * (max - min + 1) + min);
+        }
+
+
+        function check_Rule() {
+            let bln = true;
+            for(let i = 0; i < n * n; i++)
+            {
+                if (ans_Array[i] != img_Array[i]) {
+                    bln = false;
+                    return bln
+                    break
+                }
+            }
+            
+            return bln
+        }
+
+        function check_move(div) {
+            let direction = "";
+
+            if (div.value + n == space) {direction= "down"} 
+            else if (div.value - n == space) {direction = "up"}
+            else if (div.value + 1 == space && div.value %n != n-1) {direction = "right"}
+            else if (div.value - 1 == space && div.value %n != 0) {direction = "left"}
+            
+            if(direction != ""){
+                piece_control = false;
+                pos_Reset(div)
+                div.style.zIndex = n*n
+                setTimeout(function(){
+                    move(div, direction)
+                },10)
+                setTimeout(function(){
+                    if(check_Rule())
+                    {
+                        alert("成功")
+                    }
+                    else
+                    {
+                        piece_control = true
+                    }
+                },delay_time+100)
+            }
+        }
+
+        function move(div, direction) {
+            if (direction == "down") {
+                div.style.top = `${pic_Size}px`
+                div.style.transition = transition_time
+                
+                setTimeout(function () {
+                    data_Change(div)
+                    pos_Reset(div)
+                    div.style.transition = '0s'
+                    }, delay_time)
+            } 
+            else if (direction == "up") {
+                div.style.top = `-${pic_Size}px`
+                div.style.transition = transition_time
+                
+                setTimeout(function () {
+                    data_Change(div)
+                    pos_Reset(div)
+                    div.style.transition = '0s'
+                    }, delay_time)
+            } 
+            else if (direction == "right") {
+                div.style.left = `${pic_Size}px`
+                div.style.transition = transition_time
+                
+                setTimeout(function () {
+                    data_Change(div)
+                    pos_Reset(div)
+                    div.style.transition = '0s'
+                    }, delay_time)
+            }
+            else if (direction == "left") {
+                div.style.left = `-${pic_Size}px`
+                div.style.transition = transition_time
+                
+                setTimeout(function () {
+                    data_Change(div)
+                    pos_Reset(div)
+                    div.style.transition = '0s'
+                    }, delay_time)
+            }
+        }
+        
+        function data_Change(div){
+            let space_box = document.querySelector(`.col${space}`)
+            let pic_box = document.querySelector(`.col${div.value}`)
+
+            img_Array[space] = img_Array[div.value]
+            img_Array[div.value] = ans_Array[n*n-1]
+
+            space_box.appendChild(img_Array[space])
+            pic_box.appendChild(img_Array[div.value])
+            space = div.value
+        }
+
+        function pos_Reset(div){
+            div.style.left = 0
+            div.style.top = 0
+            div.style.zIndex = 0
+        }
+
+
+        function random_Piece(){
+            let dir = getRandomIntInclusive(1,4)
+            if(dir == 1 && space - n >= 0)//up
+            {
+                start_Change_Piece(space - n)
+            }
+            else if(dir == 2 && space + n < n*n)//down
+            {
+                start_Change_Piece(space + n)
+            }
+            else if(dir == 3 && space - 1 >= 0 && space % n != 0)//left
+            {
+                start_Change_Piece(space - 1)
+            }
+            else if(dir == 4 && space + 1 < n*n && space % n != n-1) //right
+            {
+                start_Change_Piece(space + 1)
+            }
+        }
+
+        function start_Change_Piece(index){
+            img_Array[space] = img_Array[index]
+            img_Array[index] = space_obj[0]
+            space = index
+        }
+    </script>
+</body>
+
+</html>
